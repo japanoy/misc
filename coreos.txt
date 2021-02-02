@@ -1,0 +1,52 @@
+https://docs.fedoraproject.org/en-US/fedora-coreos/producing-ign/
+
+Using FCCT
+fcct, the Fedora CoreOS Config Transpiler, is a tool that produces a JSON Ignition file from the YAML FCC file. Using the FCC file, an FCOS machine can be told to create users, create filesystems, set up the network, install systemd units, and more.
+
+An easy way to use fcct is to run it in a container with podman:
+
+Pull the container for fcct:
+
+podman pull quay.io/coreos/fcct:release
+
+Run fcct on the FCC file:
+
+podman run -i --rm quay.io/coreos/fcct:release --pretty --strict < example.fcc > example.ign
+
+Use the example.ign file to boot FCOS.
+
+
+
+--yaml-to-json
+
+variant: fcos
+version: 1.2.0
+passwd:
+  users:
+    - name: core
+      ssh_authorized_keys:
+        - ssh-rsa AAAB3NzaC1yc2EAAAABJQAAAQEA2uP4tgf9SfQgxnASJ6YAQfoioPkUnL+Q9OdNHsP72MmDe3sW/ZCdMISEUodauMghOTOPQ6zJ2LqZgC8U3EkluV1yPFqPAW3Bi8WXsDp96tB8mPyLmQ1CTISAx4ZFTNqFALQsJiSq6cfFI6eVSZFTFAbzETs6rAjirUP0ebTx31ZVHMRkaupdEr7ue09eeDNJP9krVVYzzBLo1ay3v7L/qHpfXrwEqs8UkJV20nh6gcI2lquxXLV/eHJWtuNZ0YG3uVt1fsYJ3jOgOqXm2sxLsX0hRTdCUJB3WCK3xpR+tJdtz0TDZkAz674iW3/0zrIvRa3l0+M1XwECSsS7jeUjXw== rsa-key-20210202-coreos
+
+
+---output
+
+{
+  "variant": "fcos",
+  "version": "1.0.0",
+  "passwd": {
+    "users": [
+      {
+        "name": "core",
+        "ssh_authorized_keys": [
+          "ssh-rsa AAAB3NzaC1yc2EAAAABJQAAAQEA2uP4tgf9SfQgxnASJ6YAQfoioPkUnL+Q9OdNHsP72MmDe3sW/ZCdMISEUodauMghOTOPQ6zJ2LqZgC8U3EkluV1yPFqPAW3Bi8WXsDp96tB8mPyLmQ1CTISAx4ZFTNqFALQsJiSq6cfFI6eVSZFTFAbzETs6rAjirUP0ebTx31ZVHMRkaupdEr7ue09eeDNJP9krVVYzzBLo1ay3v7L/qHpfXrwEqs8UkJV20nh6gcI2lquxXLV/eHJWtuNZ0YG3uVt1fsYJ3jOgOqXm2sxLsX0hRTdCUJB3WCK3xpR+tJdtz0TDZkAz674iW3/0zrIvRa3l0+M1XwECSsS7jeUjXw== rsa-key-20210202-coreos"
+        ]
+      }
+    ]
+  }
+}
+
+
+
+sudo coreos-installer install /dev/sda --ignition-file example.ign
+
+
