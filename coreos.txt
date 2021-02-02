@@ -1,5 +1,12 @@
 https://docs.fedoraproject.org/en-US/fedora-coreos/producing-ign/
 
+To generate a secure password hash, use the mkpasswd command:
+
+$ mkpasswd --method=yescrypt
+Password:
+$y$j9T$A0Y3wwVOKP69S.1K/zYGN.$S596l11UGH3XjN...
+The yescrypt hashing method is recommended for new passwords. For more details on hashing methods, see man 5 crypt.
+
 Using FCCT
 fcct, the Fedora CoreOS Config Transpiler, is a tool that produces a JSON Ignition file from the YAML FCC file. Using the FCC file, an FCOS machine can be told to create users, create filesystems, set up the network, install systemd units, and more.
 
@@ -24,6 +31,7 @@ version: 1.2.0
 passwd:
   users:
     - name: core
+      passord_hash:
       ssh_authorized_keys:
         - ssh-rsa AAAB3NzaC1yc2EAAAABJQAAAQEA2uP4tgf9SfQgxnASJ6YAQfoioPkUnL+Q9OdNHsP72MmDe3sW/ZCdMISEUodauMghOTOPQ6zJ2LqZgC8U3EkluV1yPFqPAW3Bi8WXsDp96tB8mPyLmQ1CTISAx4ZFTNqFALQsJiSq6cfFI6eVSZFTFAbzETs6rAjirUP0ebTx31ZVHMRkaupdEr7ue09eeDNJP9krVVYzzBLo1ay3v7L/qHpfXrwEqs8UkJV20nh6gcI2lquxXLV/eHJWtuNZ0YG3uVt1fsYJ3jOgOqXm2sxLsX0hRTdCUJB3WCK3xpR+tJdtz0TDZkAz674iW3/0zrIvRa3l0+M1XwECSsS7jeUjXw== rsa-key-20210202-coreos
 
